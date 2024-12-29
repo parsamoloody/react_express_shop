@@ -1,0 +1,44 @@
+type Query {
+  jeans: [Jeans]
+  dresses: [Dress]
+  sale: [Sale]
+}
+
+type Jeans {
+  id: Int
+  name: String
+}
+
+type Dress {
+  id: Int
+  name: String
+}
+
+type Sale {
+  id: Int
+  item: String
+  discount: Int
+}
+
+query GetAllData {
+  jeans {
+    id
+    name
+    size
+    color
+  }
+  dresses {
+    id
+    name
+    size
+    color
+    price
+  }
+  sales {
+    id
+    name
+    category
+    originalPrice
+    discountPrice
+  }
+}

@@ -1,0 +1,20 @@
+{
+    "jeans": [
+      { "id": 1, "name": "FlexX Jeans" },
+      { "id": 2, "name": "Hyper Sculpt Jeans" },
+      { "id": 3, "name": "Straight Jeans" },
+      { "id": 4, "name": "Flare Jeans" },
+      { "id": 5, "name": "Baggy Jeans" },
+      { "id": 6, "name": "Loose Jeans" }
+    ],
+    "dresses": [
+      { "id": 1, "name": "Summer Dress" },
+      { "id": 2, "name": "Evening Dress" },
+      { "id": 3, "name": "Cocktail Dress" }
+    ],
+    "sale": [
+      { "id": 1, "item": "FlexX Jeans", "discount": 20 },
+      { "id": 2, "item": "Summer Dress", "discount": 30 }
+    ]
+  }
+  

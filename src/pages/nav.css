@@ -1,0 +1,9 @@
+/* Add this in your CSS file (e.g., styles.css) */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
