@@ -13,11 +13,11 @@ const schema = buildSchema(fs.readFileSync(path.join(__dirname, '../query.gql'),
 // Define the root resolvers
 const root = {
   jeans: getJeans,
-  Dresses: getDresses,
-  Sale: getSaleItems,
+  dresses: getDresses,
+  sale: getSaleItems,
   jackets: getJackets,
-  Accessories: getAccessories,
-  GetAllData: () => ({
+  accessories: getAccessories,
+  getAllData: () => ({
     jeans: getJeans(),
     dresses: getDresses(),
     sales: getSaleItems()

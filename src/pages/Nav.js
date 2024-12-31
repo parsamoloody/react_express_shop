@@ -3,7 +3,7 @@ import { CiSearch } from "react-icons/ci";
 import { PiUserLight, PiShoppingCartSimpleThin } from "react-icons/pi";
 import { CiMenuBurger } from "react-icons/ci";
 import { ApolloClient, InMemoryCache, ApolloProvider, useQuery, gql } from '@apollo/client';
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import ExpressIconComponent from '../components/image/image';
 import client from '../components/api/apolloClient';
 import debounce from 'lodash.debounce';
@@ -12,7 +12,7 @@ import './nav.css';
 const expressIcon = '/assets/img/icon/express-logo.png';
 
 const GET_JEANS = gql`
-   query jeans {
+   query Jeans {
     jeans {
       id
       name
@@ -21,7 +21,7 @@ const GET_JEANS = gql`
 `;
 
 const GET_DRESSES = gql`
- query jeans {
+ query Dresses {
     dresses {
       id
       name
@@ -45,6 +45,7 @@ const GET_JACKETS = gql`
     }
   }
 `
+
 
 // Custom hook to handle window resizing
 const useWindowWidth = () => {
@@ -188,10 +189,18 @@ const DesktopNav = ({ toggleMenu }) => (
 );
 
 // Search Bar Component
-const SearchBar = ({ setIsSearchOpen, toggleSearch }) => {
-    const { jeans } = useQuery(GET_JEANS);
-    const { dresses } = useQuery(GET_DRESSES);
-    const { sale } = useQuery(GET_SALE);
+const SearchBar = ({ toggleSearch }) => {
+    const { data: jeansData, loading: jeansLoading, error: jeansError } = useQuery(GET_JEANS);
+    const { data: dressesData, loading: dressesLoading, error: dressesError } = useQuery(GET_DRESSES);
+    const { data: saleData, loading: saleLoading, error: saleError } = useQuery(GET_SALE);
+
+    if (jeansLoading || dressesLoading || saleLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (jeansError || dressesError || saleError) {
+        return <div>Error fetching data.</div>;
+    }
 
     return (
         <div className="flex w-full z-50 px-2">
@@ -211,13 +220,13 @@ const SearchBar = ({ setIsSearchOpen, toggleSearch }) => {
                 <div className="ml-4 mt-3">
                     <div>
                         <ul>
-                            {jeans?.jeans?.map(jean => (
+                            {jeansData?.jeans?.map((jean) => (
                                 <li key={jean.id}>{jean.name}</li>
                             ))}
                         </ul>
                         <ul>
-                            {dresses?.dresses?.map(jean => (
-                                <li key={jean.id}>{jean.name}</li>
+                            {dressesData?.dresses?.map((dress) => (
+                                <li key={dress.id}>{dress.name}</li>
                             ))}
                         </ul>
                     </div>
