@@ -1,9 +1,9 @@
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import { buildSchema } from 'graphql';
-import { getJeans, getDresses, getSaleItems } from '../model/model.js';
+import { getJeans, getDresses, getSaleItems, getJackets, getAccessories } from '../model/model.js';
 import path from 'path';
-import fs from 'fs';
+import fs, { access } from 'fs';
 import cors from 'cors';
 // Read the schema from the .gql file
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -13,7 +13,15 @@ const schema = buildSchema(fs.readFileSync(path.join(__dirname, '../query.gql'),
 // Define the root resolvers
 const root = {
   jeans: getJeans,
-  dresses: getDresses,
+  Dresses: getDresses,
+  Sale: getSaleItems,
+  jackets: getJackets,
+  Accessories: getAccessories,
+  GetAllData: () => ({
+    jeans: getJeans(),
+    dresses: getDresses(),
+    sales: getSaleItems()
+  }),
   sale: getSaleItems
 };
 

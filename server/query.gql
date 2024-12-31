@@ -7,19 +7,51 @@ type Query {
 type Jeans {
   id: Int
   name: String
+  size: String
+  color: String
 }
 
 type Dress {
   id: Int
   name: String
+  size: String
+  color: String
+  price: Float
 }
 
 type Sale {
   id: Int
   item: String
   discount: Int
+  originalPrice: Float
+  discountPrice: Float
 }
 
+type Jackets {
+  id: Int
+  name: String
+  size: String
+  color: String
+  price: Int
+}
+
+type Accessories {
+   id: Int
+  name: String
+  brand: String
+  price: Int
+  color: String
+}
+
+type Bags {
+  id: Int
+  name: String
+  brand: String
+  color: String
+  price: Int
+}
+
+# GetAllData query definition
 query GetAllData {
   jeans {
     id
@@ -36,8 +68,8 @@ query GetAllData {
   }
   sales {
     id
-    name
-    category
+    item
+    discount
     originalPrice
     discountPrice
   }

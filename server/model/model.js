@@ -15,7 +15,7 @@ const loadData = () => {
 
 // Function to get all jeans
 export const getJeans = () => {
-  const data = loadData();
+  const data = loadData(  );
   return data.jeans;
 };
 
@@ -30,3 +30,14 @@ export const getSaleItems = () => {
   const data = loadData();
   return data.sale;
 };
+
+export const getJackets = () => {
+  const data = loadData();
+  return data.jackets;
+};
+
+export const getAccessories = () => {
+  const data = loadData();
+  return data.accessories;
+};
+

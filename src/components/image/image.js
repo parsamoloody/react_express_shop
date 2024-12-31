@@ -6,6 +6,7 @@ import React from 'react';
 export default function ExpressIconComponent({uri}) {
   return (
     <img src={uri} alt="Express Icon"
+    className="w-full h-full"
      />
   );
 };
