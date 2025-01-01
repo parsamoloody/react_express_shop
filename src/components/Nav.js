@@ -4,8 +4,8 @@ import { PiUserLight, PiShoppingCartSimpleThin } from "react-icons/pi";
 import { CiMenuBurger } from "react-icons/ci";
 import { ApolloClient, InMemoryCache, ApolloProvider, useQuery, gql } from '@apollo/client';
 import { data, Link } from "react-router-dom";
-import ExpressIconComponent from '../components/image/image';
-import client from '../components/api/apolloClient';
+import ExpressIconComponent from './image/image';
+import client from '../api/apolloClient';
 import debounce from 'lodash.debounce';
 import './nav.css';
 
@@ -29,7 +29,7 @@ const GET_DRESSES = gql`
   }`
 
 const GET_SALE = gql`
- query sale {
+ query Sale {
     sale {
       id
       item
@@ -38,10 +38,22 @@ const GET_SALE = gql`
 `
 
 const GET_JACKETS = gql`
- query jackets {
- jackets {
+ query Jackets {
+  jackets {
       id
       name
+    }
+  }
+`
+
+const GET_ACCESSORIES = gql`
+ query Accessories {
+    accessories {
+      id
+      name
+      brand
+      price
+      color
     }
   }
 `
@@ -65,17 +77,17 @@ const useWindowWidth = () => {
 const Nav = () => {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    
+
     const toggleSearch = () => {
-      if (!isSearchOpen) setIsMenuOpen(false); // Close menu if search is opening
-      setIsSearchOpen((prev) => !prev);
+        if (!isSearchOpen) setIsMenuOpen(false); // Close menu if search is opening
+        setIsSearchOpen((prev) => !prev);
     };
-    
+
     const toggleMenu = () => {
-      if (!isMenuOpen) setIsSearchOpen(false); // Close search if menu is opening
-      setIsMenuOpen((prev) => !prev);
+        if (!isMenuOpen) setIsSearchOpen(false); // Close search if menu is opening
+        setIsMenuOpen((prev) => !prev);
     };
-    
+
 
 
     return (
@@ -130,7 +142,7 @@ const NavList = ({ toggleSearch, setIsMenuOpen }) => {
                 </div>
             </div>
             <div className='w-full hidden lg:block'>
-            {isDesktop && <DesktopNav />}
+                {isDesktop && <DesktopNav />}
             </div>
             <div className="flex justify-between lg:justify-start w-full lg:w-auto space-x-6 lg:space-x-6">
                 <ul className='flex space-x-6 justify-between items-center lg:space-x-6 xl:space-x-8 lg:justify-between xl:mr-10 w-full text-black'>
@@ -148,7 +160,7 @@ const NavList = ({ toggleSearch, setIsMenuOpen }) => {
                         <Cart />
                     </li>
                     <li
-                    onMouseDown={setIsMenuOpen}>
+                        onMouseDown={setIsMenuOpen}>
                         <CiMenuBurger className="text-black text-2xl lg:hidden" />
                     </li>
                 </ul>
@@ -169,7 +181,7 @@ const DesktopNav = ({ toggleMenu }) => (
     <div className="flex w-full justify-center z-50 px-2">
         <div className="w-full lg:w-0 h-screen lg:h-10" onMouseDown={toggleMenu} ></div>
         <div className="w-auto h-screen lg:h-20 pt-4 lg:bg-transparent bg-gray-100">
-          
+
             <div className="ml-4 mt-3">
                 <div>
                     <ul className="grid grid-cols-1 leading-8 lg:flex space-x-6 justify-center w-48 lg:w-full text-black">
@@ -194,6 +206,7 @@ const SearchBar = ({ toggleSearch }) => {
     const { data: dressesData, loading: dressesLoading, error: dressesError } = useQuery(GET_DRESSES);
     const { data: saleData, loading: saleLoading, error: saleError } = useQuery(GET_SALE);
     const { data: jacketsData, loading: jacketsLoading, error: jacketsError } = useQuery(GET_JACKETS);
+    const { data: accessoriesData, loading: accessoriesLoading, error: accessoriesError } = useQuery(GET_ACCESSORIES);
 
     if (jeansLoading || dressesLoading || saleLoading) {
         return <div>Loading...</div>;
@@ -228,6 +241,21 @@ const SearchBar = ({ toggleSearch }) => {
                         <ul>
                             {dressesData?.dresses?.map((dress) => (
                                 <li key={dress.id}>{dress.name}</li>
+                            ))}
+                        </ul>
+                        <ul>
+                            {saleData?.sale?.map((sale) => (
+                                <li key={sale.id}>{sale.item}</li>
+                            ))}
+                        </ul>
+                        <ul>
+                            {jacketsData?.jackets?.map((jacket) => (
+                                <li key={jacket.id}>{jacket.name}</li>
+                            ))}
+                        </ul>
+                        <ul>
+                            {accessoriesData?.accessories?.map((accessory) => (
+                                <li key={accessory.id}>dfvvvvdf{accessory.name}</li>
                             ))}
                         </ul>
                     </div>

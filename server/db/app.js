@@ -17,12 +17,12 @@ const root = {
   sale: getSaleItems,
   jackets: getJackets,
   accessories: getAccessories,
+  sale: getSaleItems,
   getAllData: () => ({
     jeans: getJeans(),
     dresses: getDresses(),
     sales: getSaleItems()
   }),
-  sale: getSaleItems
 };
 
 const app = express();
