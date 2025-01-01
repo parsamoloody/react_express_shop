@@ -3,60 +3,13 @@ import { CiSearch } from "react-icons/ci";
 import { PiUserLight, PiShoppingCartSimpleThin } from "react-icons/pi";
 import { CiMenuBurger } from "react-icons/ci";
 import { ApolloClient, InMemoryCache, ApolloProvider, useQuery, gql } from '@apollo/client';
+import { useProducts } from '../hooks/useProducts';
 import { data, Link } from "react-router-dom";
 import ExpressIconComponent from './image/image';
 import client from '../api/apolloClient';
-import debounce from 'lodash.debounce';
 import './nav.css';
 
 const expressIcon = '/assets/img/icon/express-logo.png';
-
-const GET_JEANS = gql`
-   query Jeans {
-    jeans {
-      id
-      name
-    }
-  }
-`;
-
-const GET_DRESSES = gql`
- query Dresses {
-    dresses {
-      id
-      name
-    }
-  }`
-
-const GET_SALE = gql`
- query Sale {
-    sale {
-      id
-      item
-    }
-  }
-`
-
-const GET_JACKETS = gql`
- query Jackets {
-  jackets {
-      id
-      name
-    }
-  }
-`
-
-const GET_ACCESSORIES = gql`
- query Accessories {
-    accessories {
-      id
-      name
-      brand
-      price
-      color
-    }
-  }
-`
 
 
 // Custom hook to handle window resizing
@@ -75,7 +28,7 @@ const useWindowWidth = () => {
 
 // Main Navigation Component
 const Nav = () => {
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(true);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleSearch = () => {
@@ -87,8 +40,6 @@ const Nav = () => {
         if (!isMenuOpen) setIsSearchOpen(false); // Close search if menu is opening
         setIsMenuOpen((prev) => !prev);
     };
-
-
 
     return (
         <ApolloProvider client={client}>
@@ -202,65 +153,66 @@ const DesktopNav = ({ toggleMenu }) => (
 
 // Search Bar Component
 const SearchBar = ({ toggleSearch }) => {
-    const { data: jeansData, loading: jeansLoading, error: jeansError } = useQuery(GET_JEANS);
-    const { data: dressesData, loading: dressesLoading, error: dressesError } = useQuery(GET_DRESSES);
-    const { data: saleData, loading: saleLoading, error: saleError } = useQuery(GET_SALE);
-    const { data: jacketsData, loading: jacketsLoading, error: jacketsError } = useQuery(GET_JACKETS);
-    const { data: accessoriesData, loading: accessoriesLoading, error: accessoriesError } = useQuery(GET_ACCESSORIES);
+    const [hoveredImage, setHoveredImage] = useState(1);
+    const { jeans, dresses } = useProducts();
 
-    if (jeansLoading || dressesLoading || saleLoading) {
-        return <div>Loading...</div>;
-    }
-
-    if (jeansError || dressesError || saleError) {
-        return <div>Error fetching data.</div>;
-    }
+    const getMenuImageUrl = (index) => {
+        setHoveredImage(index);
+    };
 
     return (
         <div className="flex w-full z-50 px-2">
-            <div className="w-full h-screen" onMouseEnter={toggleSearch}>
+            <div
+                className="w-full h-screen bg-gray-100 flex items-center justify-center"
+                onMouseEnter={toggleSearch}
+            >
+                <div className='hidden lg:flex'>
+                <img
+                    src={`/assets/img/top-search/0${hoveredImage}-hp-m-mb.avif`}
+                    alt={`Image ${hoveredImage}`}
+                />
+                </div>
             </div>
             <div className="w-auto h-screen pt-4 bg-gray-100">
                 <div className="flex items-start mt-0 top-0 mx-4 border-b-2">
                     <input
                         type="text"
                         placeholder="Search"
-                        className="relative py-2 px-4 focus:outline-none"
+                        className="relative py-2 px-4 focus:outline-none w-80 lg:w-96 h-10 rounded-l-md"
                     />
                     <button className="bg-white relative text-black py-2 px-4 h-10 rounded-r-md">
                         <CiSearch />
                     </button>
                 </div>
-                <div className="ml-4 mt-3">
+                <div className="ml-12 mt-3">
                     <div>
-                        <ul>
-                            {jeansData?.jeans?.map((jean) => (
-                                <li key={jean.id}>{jean.name}</li>
+                        <h2 className="text-2xl font-bold -ml-6">Top searchs</h2>
+                        <ul className="leading-10 list-['🦄-']">
+                            {jeans?.data?.jeans?.map((jean, index) => (
+                                <li
+                                    onMouseEnter={() => getMenuImageUrl(index)}
+                                    key={jean.id}
+                                    className="hover:ml-1 duration-150"
+                                >
+                                    <Link to={jean.name}>{jean.name}</Link>
+                                </li>
+                            ))}
+
+                            {dresses?.data?.dresses?.map((dress, index) => (
+                                <li
+                                    onMouseEnter={() => getMenuImageUrl(index)}
+                                    key={index}
+                                    className="hover:ml-1 duration-150"
+                                >
+                                    <Link>{dress.name}</Link>
+                                </li>
                             ))}
                         </ul>
-                        <ul>
-                            {dressesData?.dresses?.map((dress) => (
-                                <li key={dress.id}>{dress.name}</li>
-                            ))}
-                        </ul>
-                        <ul>
-                            {saleData?.sale?.map((sale) => (
-                                <li key={sale.id}>{sale.item}</li>
-                            ))}
-                        </ul>
-                        <ul>
-                            {jacketsData?.jackets?.map((jacket) => (
-                                <li key={jacket.id}>{jacket.name}</li>
-                            ))}
-                        </ul>
-                        <ul>
-                            {accessoriesData?.accessories?.map((accessory) => (
-                                <li key={accessory.id}>dfvvvvdf{accessory.name}</li>
-                            ))}
-                        </ul>
+                        <ul></ul>
                     </div>
                 </div>
             </div>
         </div>
     );
 };
+
