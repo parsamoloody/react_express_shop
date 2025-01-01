@@ -193,6 +193,7 @@ const SearchBar = ({ toggleSearch }) => {
     const { data: jeansData, loading: jeansLoading, error: jeansError } = useQuery(GET_JEANS);
     const { data: dressesData, loading: dressesLoading, error: dressesError } = useQuery(GET_DRESSES);
     const { data: saleData, loading: saleLoading, error: saleError } = useQuery(GET_SALE);
+    const { data: jacketsData, loading: jacketsLoading, error: jacketsError } = useQuery(GET_JACKETS);
 
     if (jeansLoading || dressesLoading || saleLoading) {
         return <div>Loading...</div>;

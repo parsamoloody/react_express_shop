@@ -32,4 +32,8 @@ Before getting started, ensure you have the following installed:
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/express-graphql-project.git
+   git clone https://github.com/parsamoloody/react_express_shop.git
+
+## Project Structure
+
+![Project Structure](https://miro.medium.com/v2/resize:fit:828/format:webp/1*0qgOXFyFbtHLfeoBH5KhUg.jpeg)
