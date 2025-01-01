@@ -28,7 +28,7 @@ const useWindowWidth = () => {
 
 // Main Navigation Component
 const Nav = () => {
-    const [isSearchOpen, setIsSearchOpen] = useState(true);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleSearch = () => {
@@ -44,17 +44,18 @@ const Nav = () => {
     return (
         <ApolloProvider client={client}>
             <div>
-                <div className="flex items-center justify-between p-4 mt-4 lg:mt-0 w-full z-40">
+                <div className="flex fixed items-center justify-between py-6 lg:py-1 w-full z-40 bg-white">
                     <NavList toggleSearch={toggleSearch} setIsMenuOpen={toggleMenu} />
                 </div>
+                <NavEvent />
                 <div
-                    className={`flex w-auto overflow-hidden absolute h-screen mt- right-0 transition-all duration-1000 ease-in-out`}
+                    className={`flex w-auto overflow-hidden absolute h-screen mt-20 right-0 transition-all duration-1000 ease-in-out z-50`}
                     style={isSearchOpen ? { width: '100%' } : { width: '0' }}
                 >
                     <SearchBar toggleSearch={toggleSearch} />
                 </div>
                 <div
-                    className={`flex w-auto overflow-hidden absolute h-screen mt- right-0 transition-all duration-1000 ease-in-out`}
+                    className={`flex w-auto overflow-hidden absolute h-screen mt-20 right-0 transition-all duration-1000 ease-in-out`}
                     style={isMenuOpen ? { width: '100%' } : { width: '0' }}
                 >
                     <DesktopNav toggleMenu={toggleMenu} />
@@ -184,10 +185,10 @@ const SearchBar = ({ toggleSearch }) => {
                         <CiSearch />
                     </button>
                 </div>
-                <div className="ml-12 mt-3">
+                <div className="ml-10 mt-3">
                     <div>
                         <h2 className="text-2xl font-bold -ml-6">Top searchs</h2>
-                        <ul className="leading-10 list-['🦄-']">
+                        <ul className="leading-10 ml-3 list-['🦄-']">
                             {jeans?.data?.jeans?.map((jean, index) => (
                                 <li
                                     onMouseEnter={() => getMenuImageUrl(index)}
@@ -208,7 +209,6 @@ const SearchBar = ({ toggleSearch }) => {
                                 </li>
                             ))}
                         </ul>
-                        <ul></ul>
                     </div>
                 </div>
             </div>
@@ -216,3 +216,21 @@ const SearchBar = ({ toggleSearch }) => {
     );
 };
 
+const NavEvent = () => {
+    return (
+        <div>
+           <div className='bg-black mt-28 grid grid-cols-1 grid-rows-2 gap-y-4 py-2 lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-4 lg:gap-y-0 lg:py-6'>
+            <div className='text-center leading-5 text-white'>
+                <h3 className='text-lg font-bold'>$29.90 ALL SWEATERS</h3>
+                <p className='text-gray-500'>Exclusions & Details</p>
+                <b>WOMEN MEN</b>
+            </div>
+            <div className='text-center leading-5 text-white'>
+                <h3 className='test-lg font-bold'>$29.90 ALL SWEATERS</h3>
+                <p className='text-gray-500'>Exclusions & Details</p>
+                <b>WOMEN MEN</b>
+            </div>
+           </div>
+        </div>
+    );
+}
