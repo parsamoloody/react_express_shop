@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CiSearch } from "react-icons/ci";
 import { PiUserLight, PiShoppingCartSimpleThin } from "react-icons/pi";
+import { VscClose } from "react-icons/vsc";
 import { CiMenuBurger } from "react-icons/ci";
-import { ApolloClient, InMemoryCache, ApolloProvider, useQuery, gql } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
 import { useProducts } from '../hooks/useProducts';
-import { data, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ExpressIconComponent from './image/image';
 import client from '../api/apolloClient';
 import './nav.css';
 
 const expressIcon = '/assets/img/icon/express-logo.png';
-
 
 // Custom hook to handle window resizing
 const useWindowWidth = () => {
@@ -45,17 +45,16 @@ const Nav = () => {
         <ApolloProvider client={client}>
             <div>
                 <div className="flex fixed items-center justify-between py-6 lg:py-1 w-full z-40 bg-white">
-                    <NavList toggleSearch={toggleSearch} setIsMenuOpen={toggleMenu} />
+                    <NavList toggleSearch={toggleSearch} setIsMenuOpen={toggleMenu} isSearchOpen={isSearchOpen} />
                 </div>
-                <NavEvent />
                 <div
-                    className={`flex w-auto overflow-hidden absolute h-screen mt-20 right-0 transition-all duration-1000 ease-in-out z-50`}
+                    className={`flex w-auto overflow-hidden absolute h-screen mt-[4.52rem] right-0 transition-all duration-1000 ease-in-out z-50`}
                     style={isSearchOpen ? { width: '100%' } : { width: '0' }}
                 >
                     <SearchBar toggleSearch={toggleSearch} />
                 </div>
                 <div
-                    className={`flex w-auto overflow-hidden absolute h-screen mt-20 right-0 transition-all duration-1000 ease-in-out`}
+                    className={`flex w-auto overflow-hidden fixed h-screen mt-[4.52rem] right-0 transition-all duration-1000 ease-in-out`}
                     style={isMenuOpen ? { width: '100%' } : { width: '0' }}
                 >
                     <DesktopNav toggleMenu={toggleMenu} />
@@ -82,7 +81,7 @@ const Cart = () => (
 );
 
 // Navigation List Component
-const NavList = ({ toggleSearch, setIsMenuOpen }) => {
+const NavList = ({ toggleSearch, setIsMenuOpen, isSearchOpen }) => {
     const windowWidth = useWindowWidth();
     const isDesktop = windowWidth > 1024;
 
@@ -98,8 +97,11 @@ const NavList = ({ toggleSearch, setIsMenuOpen }) => {
             </div>
             <div className="flex justify-between lg:justify-start w-full lg:w-auto space-x-6 lg:space-x-6">
                 <ul className='flex space-x-6 justify-between items-center lg:space-x-6 xl:space-x-8 lg:justify-between xl:mr-10 w-full text-black'>
+
                     <li className=''>
-                        <Search toggleSearch={toggleSearch} />
+                        < Search
+                            toggleSearch={toggleSearch}
+                            isSearchOpen={isSearchOpen} />
                     </li>
                     <li>
                         <UserAccount />
@@ -122,15 +124,17 @@ const NavList = ({ toggleSearch, setIsMenuOpen }) => {
 };
 
 // Search Icon Component
-const Search = ({ toggleSearch }) => (
-    <div className="grid justify-center items-center cursor-pointer" onMouseEnter={toggleSearch}>
-        <CiSearch className="text-black text-2xl" />
+const Search = ({ toggleSearch, isSearchOpen }) => (
+    <div className="grid justify-center items-center cursor-pointer" onClick={toggleSearch}>
+        {
+            isSearchOpen ? <VscClose toggleSearch={toggleSearch} className='text-black text-2xl' /> : <CiSearch className="text-black text-2xl" />
+        }
     </div>
 );
 
 // Desktop Navigation Links
 const DesktopNav = ({ toggleMenu }) => (
-    <div className="flex w-full justify-center z-50 px-2">
+    <div className="flex w-full justify-center z-50 pl-2">
         <div className="w-full lg:w-0 h-screen lg:h-10" onMouseDown={toggleMenu} ></div>
         <div className="w-auto h-screen lg:h-20 pt-4 lg:bg-transparent bg-gray-100">
 
@@ -162,16 +166,16 @@ const SearchBar = ({ toggleSearch }) => {
     };
 
     return (
-        <div className="flex w-full z-50 px-2">
+        <div className="flex w-full z-50 bg-gray-100 px-2">
             <div
-                className="w-full h-screen bg-gray-100 flex items-center justify-center"
+                className="w-full h-screen flex items-center justify-center"
                 onMouseEnter={toggleSearch}
             >
                 <div className='hidden lg:flex'>
-                <img
-                    src={`/assets/img/top-search/0${hoveredImage}-hp-m-mb.avif`}
-                    alt={`Image ${hoveredImage}`}
-                />
+                    <img
+                        src={`/assets/img/top-search/0${hoveredImage}-hp-m-mb.avif`}
+                        alt={`Image ${hoveredImage}`}
+                    />
                 </div>
             </div>
             <div className="w-auto h-screen pt-4 bg-gray-100">
@@ -188,7 +192,7 @@ const SearchBar = ({ toggleSearch }) => {
                 <div className="ml-10 mt-3">
                     <div>
                         <h2 className="text-2xl font-bold -ml-6">Top searchs</h2>
-                        <ul className="leading-10 ml-3 list-['🦄-']">
+                        <ul className="leading-10 ml-3">
                             {jeans?.data?.jeans?.map((jean, index) => (
                                 <li
                                     onMouseEnter={() => getMenuImageUrl(index)}
@@ -215,22 +219,3 @@ const SearchBar = ({ toggleSearch }) => {
         </div>
     );
 };
-
-const NavEvent = () => {
-    return (
-        <div>
-           <div className='bg-black mt-28 grid grid-cols-1 grid-rows-2 gap-y-4 py-2 lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-4 lg:gap-y-0 lg:py-6'>
-            <div className='text-center leading-5 text-white'>
-                <h3 className='text-lg font-bold'>$29.90 ALL SWEATERS</h3>
-                <p className='text-gray-500'>Exclusions & Details</p>
-                <b>WOMEN MEN</b>
-            </div>
-            <div className='text-center leading-5 text-white'>
-                <h3 className='test-lg font-bold'>$29.90 ALL SWEATERS</h3>
-                <p className='text-gray-500'>Exclusions & Details</p>
-                <b>WOMEN MEN</b>
-            </div>
-           </div>
-        </div>
-    );
-}
