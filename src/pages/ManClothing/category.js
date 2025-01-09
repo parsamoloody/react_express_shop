@@ -11,7 +11,7 @@ const products = {
     title: 'Denim Jeans',
     url: 'jeans',
     price: 29.99,
-    rating: 4.5
+    rating: 4.5 
   },
   shirts: {
     image: {

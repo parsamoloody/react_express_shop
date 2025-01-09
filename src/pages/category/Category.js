@@ -25,13 +25,13 @@ const CategoryPage = () => {
               key={index}
               className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow"
             >
-              <h2 className="text-lg font-semibold text-gray-700 mb-2">
-                {product.title}
-              </h2>
               <img
                 src={`/assets/img/categories/man-clothing/${categoryName}.avif`}
                 className="w-full h-auto object-cover rounded-md mb-4"
               />    
+              <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                {product.title}
+              </h2>
               <p className="text-gray-600 mb-2">{product.description}</p>
               <p className="text-green-600 font-medium">
                 Price: ${product.price}
