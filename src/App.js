@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { ApolloProvider } from "@apollo/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Blogs from "./pages/Blogs";
+import NoPage from "./pages/NoPage";
+import ManClothing from './pages/ManClothing/category';
+import CategoryPage from './pages/category/Category'
+import client from './api/apolloClient';
+import Nav from './components/Nav';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+    <Nav />
+    <Routes>
+      <Route index element={<Home />} />
+      <Route path="blogs" element={<Blogs />} />
+      <Route path="/man-clothing/:categoryName" element={<CategoryPage />} />
+      <Route path="man-clothing" element={<ManClothing />} />
+      <Route path="*" element={<NoPage />} />
+    </Routes>
+  </BrowserRouter>
+    
   );
 }
 
-// export default App;
+export default App;

@@ -141,13 +141,13 @@ const DesktopNav = ({ toggleMenu }) => (
                 <div>
                     <ul className="grid grid-cols-1 leading-8 lg:flex space-x-6 justify-center w-48 2xl:gap-6 lg:w-full text-black">
                         <li><Link to="/" className="hover:underline">HOME</Link></li>
+                        <li><Link to="/women" className="hover:underline">WOMEN</Link></li>
+                        <li><Link to="/man-clothing" className="hover:underline">MEN</Link></li>
+                        <li><Link to="/jeans" className="hover:underline">JEANS</Link></li>
                         <li><Link to="/blogs" className="hover:underline">BLOGS</Link></li>
                         <li><Link to="/gift-cards" className="hover:underline">GIFT CARDS</Link></li>
-                        <li><Link to="/sale" className="hover:underline">SALE</Link></li>
                         <li><Link to="/what-to-wear" className="hover:underline">WHAT TO WEAR</Link></li>
-                        <li><Link to="/jeans" className="hover:underline">JEANS</Link></li>
-                        <li><Link to="/man-clothing" className="hover:underline">MEN</Link></li>
-                        <li><Link to="/women" className="hover:underline">WOMEN</Link></li>
+                        <li><Link to="/sale" className="hover:underline">SALE</Link></li>
                     </ul>
                 </div>
             </div>
