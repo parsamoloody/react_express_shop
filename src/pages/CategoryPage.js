@@ -1,93 +1,16 @@
-import { ApolloServer, gql } from "apollo-server";
+import { useParams } from 'react-router-dom';
+import Nav from '../components/Nav';
 
-let typeDefs = gql`
-  type Image {
-  src: String
-  extension: String
-  type: String
-  alt: String
-}
-
-type CategoryInformation {
-  title: String
-  path: String
-  description: String
-  image: [Image]
-}
-
-type Product {
-  title: String
-  image: [Image]
-  description: String
-  price: Int
-  isDiscount: Boolean
-  discountRate: Int
-  rating: Float
-  author: String
-  Date: String
-}
-
-type ClothingCategory {
-  categoryName: String
-  image: [Image]
-  products: [Product]
-}
-
-type ClothingCategoryNoImage { 
-  products: [Product]
-}
-
-type ClothingCategorySingleImage { 
-  image: [Image]
-  products: [Product]
-}
-
-type Man {
-  categoryInformation: [CategoryInformation]
-  shirts: [ClothingCategory]
-  jeans: [ClothingCategory]
-  sweaters: [ClothingCategorySingleImage]
-  suits: [ClothingCategorySingleImage] 
-  outerwear: [ClothingCategorySingleImage]
-}
-
-type Woman {
-  categoryInformation: [CategoryInformation]
-  jeans: [ClothingCategory]
-  shirts: [ClothingCategory]
-}
-
-type Gender {
-  man: [Man]
-  woman: [Woman]
-}
-
-type Query {
-  theMan: [Gender]
-  theWoman: [Gender]
-}
-
-`;
-
-let resolvers = {
-    Query: {
-        theMan: () => categories,
-        theWoman: () => categories
-    }
-}
-
-let server = new ApolloServer({ typeDefs, resolvers })
-server.listen()
-
+// Example category products data
 const categories = [
     {
-        man: [
+        men: [
             {
 
                 categoryInformation: [
                     {
-                        title: "man clothing",
-                        path: "man-clothing",
+                        title: "men clothing",
+                        path: "men-clothing",
                         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget risus ut nunc lacinia ultrices. Nullam nec purus nec nunc lacinia ultrices. Nullam nec purus nec nunc lacinia ultrices. Nullam nec purus nec nunc lacinia ultrices.",
                         image: [
                             {
@@ -101,7 +24,6 @@ const categories = [
                 ],
                 shirts: [
                     {
-                        categoryName: "shirts",
                         imaage: [
                             {
                                 src: "01-hp-m-mb",
@@ -247,10 +169,9 @@ const categories = [
                 ],
                 jeans: [
                     {
-                        categoryName: "jeans",
                         imaage: [
                             {
-                                src: "02-hp-m-mb",
+                                src: "03-hp-m-mb",
                                 extension: "avif",
                                 type: "image/avif",
                                 alt: "shirt"
@@ -279,7 +200,7 @@ const categories = [
                                 title: "Loose Brown Stretch Carpenter Jeans.",
                                 image: [
                                     {
-                                        src: "0024_00918238_2629_f001",
+                                        src: "0024_00918226_3479_c002",
                                         extension: "avif",
                                         type: "image/avif",
                                         alt: "Plaid Pocket Cotton Stretch Shirt."
@@ -369,7 +290,7 @@ const categories = [
                                 title: "Loose Medium Wash Stretch Carpenter Jeans.",
                                 image: [
                                     {
-                                        src: "0024_02757689_0001_f001",
+                                        src: "0024_00918227_3471_c001",
                                         extension: "avif",
                                         type: "image/avif",
                                         alt: "Plaid Pocket Cotton Stretch Shirt."
@@ -406,7 +327,6 @@ const categories = [
                 ],
                 sweaters: [
                     {
-                        categoryName: "Sweaters",
                         image: [
                             {
                                 src: "0024_00918227_3471_c001",
@@ -439,7 +359,6 @@ const categories = [
                 ],
                 suits: [
                     {
-                        categoryName: "Suits",
                         image: [
                             {
                                 src: "04-hp-m-mb",
@@ -472,7 +391,6 @@ const categories = [
                 ],
                 outerwear: [
                     {
-                        categoryName: "Outerwear",
                         image: [
                             {
                                 src: "05-hp-m-mb",
@@ -506,12 +424,12 @@ const categories = [
 
             }
         ],
-        woman: [
+        women: [
             {
                 categoryInformation: [
                     {
-                        title: "woman clothing",
-                        path: "woman-clothing",
+                        title: "women clothing",
+                        path: "women-clothing",
                         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget risus ut nunc lacinia ultrices. Nullam nec purus nec nunc lacinia ultrices. Nullam nec purus nec nunc lacinia ultrices. Nullam nec purus nec nunc lacinia ultrices.",
                         image: [
                             {
@@ -525,7 +443,6 @@ const categories = [
                 ],
                 jeans: [
                     {
-                        categoryName: "Jeans",
                         image: [
                             {
                                 src: "01-hp-m-mb",
@@ -558,7 +475,6 @@ const categories = [
                 ],
                 shirts: [
                     {
-                        categoryName: "Shirts",
                         image: [
                             {
                                 src: "05-hp-m-mb",
@@ -594,3 +510,52 @@ const categories = [
         ]
     }
 ]
+
+
+// Function to get products based on category
+const getProductsByCategory = (categoryName) => {
+    return categories.filter((category) => category.category === categoryName);
+};
+
+const CategoryPage = () => {
+    const { categoryName } = useParams();
+
+    // Fetch products for the specific category based on categoryName
+    const products = getProductsByCategory(categoryName);
+
+    return (
+        <>
+            <Nav />
+            <div className="p-4">
+                <h1 className="text-2xl font-bold text-gray-800 mb-6">
+                    Products in {categoryName}
+                </h1>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {products.length > 0 ? (
+                        products[0].products.map((product, index) => (
+                            <div
+                                key={index}
+                                className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow"
+                            >
+                                <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                                    {product.name}
+                                </h2>
+                                <img
+                                    src={`/assets/img/categories/${product.category}.avif`}
+                                    alt={product.name}
+                                    className="w-full h-[24rem] object-cover rounded-md mb-4"
+                                />
+                                <p className="text-gray-600 mb-2">{product.description}</p>
+                                <p className="text-green-600 font-medium">Price: ${product.price}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-gray-500">No products available in this category.</p>
+                    )}
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default CategoryPage;

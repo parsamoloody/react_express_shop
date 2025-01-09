@@ -1,0 +1,59 @@
+type Image {
+  src: String
+  extension: String
+  type: String
+  alt: String
+}
+
+type CategoryInformation {
+  title: String
+  path: String
+  description: String
+  image: [Image]
+}
+
+type Product {
+  title: String
+  image: [Image]
+  description: String
+  price: Int
+  isDiscount: Boolean
+  discountRate: Int
+  rating: Float
+  author: String
+  Date: String
+}
+
+type ClothingCategory {
+  image: [Image] # Corrected from "imaage"
+  products: [Product]
+}
+
+type ClothingCategoryNoImage { 
+  products: [Product]
+}
+
+type ClothingCategorySingleImage { 
+  image: [Image]
+  products: [Product]
+}
+
+type Men {
+  categoryInformation: [CategoryInformation]
+  shirts: [ClothingCategory]
+  jeans: [ClothingCategory]
+  sweaters: [ClothingCategorySingleImage]
+  suits: [ClothingCategorySingleImage]
+  outerwear: [ClothingCategorySingleImage]
+}
+
+type Women {
+  categoryInformation: [CategoryInformation]
+  jeans: [ClothingCategory]
+  shirts: [ClothingCategory]
+}
+
+type Query {
+  men: [Men]
+  women: [Women]
+}

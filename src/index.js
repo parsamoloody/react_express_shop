@@ -1,20 +1,28 @@
-import ReactDOM from "react-dom/client";
+// index.js or main.js
+
 import React from "react";
+import ReactDOM from "react-dom/client";
+import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import Blogs from "./pages/Blogs";
-import Contact from "./pages/Contact";
 import NoPage from "./pages/NoPage";
+import ManClothing from './pages/ManClothing/category';
+import CategoryPage from './pages/category/Category'
+import client from './api/apolloClient'; 
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-          <Route index element={<Home />} />
-          <Route path="blogs" element={<Blogs />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<NoPage />} />
+        <Route index element={<Home />} />
+        <Route path="blogs" element={<Blogs />} />
+        <Route path="/man-clothing/:categoryName" element={<CategoryPage />} />
+        <Route path="man-clothing" element={<ManClothing />} />
+        {/* <Route path="man-clothing/shirts" element={<ManShirtCaegories />} />
+        <Route path="man-clothing/shirts" element={<ManShirtCaegories />} />
+        <Route path="man-clothing/jeans" element={<ManJeansCaegories />} /> */}
+        <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>
   );
@@ -23,7 +31,7 @@ function App() {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-
-  <App />
-
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>
 );

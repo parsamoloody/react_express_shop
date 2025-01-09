@@ -1,93 +1,12 @@
-import { ApolloServer, gql } from "apollo-server";
-
-let typeDefs = gql`
-  type Image {
-  src: String
-  extension: String
-  type: String
-  alt: String
-}
-
-type CategoryInformation {
-  title: String
-  path: String
-  description: String
-  image: [Image]
-}
-
-type Product {
-  title: String
-  image: [Image]
-  description: String
-  price: Int
-  isDiscount: Boolean
-  discountRate: Int
-  rating: Float
-  author: String
-  Date: String
-}
-
-type ClothingCategory {
-  categoryName: String
-  image: [Image]
-  products: [Product]
-}
-
-type ClothingCategoryNoImage { 
-  products: [Product]
-}
-
-type ClothingCategorySingleImage { 
-  image: [Image]
-  products: [Product]
-}
-
-type Man {
-  categoryInformation: [CategoryInformation]
-  shirts: [ClothingCategory]
-  jeans: [ClothingCategory]
-  sweaters: [ClothingCategorySingleImage]
-  suits: [ClothingCategorySingleImage] 
-  outerwear: [ClothingCategorySingleImage]
-}
-
-type Woman {
-  categoryInformation: [CategoryInformation]
-  jeans: [ClothingCategory]
-  shirts: [ClothingCategory]
-}
-
-type Gender {
-  man: [Man]
-  woman: [Woman]
-}
-
-type Query {
-  theMan: [Gender]
-  theWoman: [Gender]
-}
-
-`;
-
-let resolvers = {
-    Query: {
-        theMan: () => categories,
-        theWoman: () => categories
-    }
-}
-
-let server = new ApolloServer({ typeDefs, resolvers })
-server.listen()
-
-const categories = [
+export default categories = [
     {
-        man: [
+        men: [
             {
 
                 categoryInformation: [
                     {
-                        title: "man clothing",
-                        path: "man-clothing",
+                        title: "men clothing",
+                        path: "men-clothing",
                         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget risus ut nunc lacinia ultrices. Nullam nec purus nec nunc lacinia ultrices. Nullam nec purus nec nunc lacinia ultrices. Nullam nec purus nec nunc lacinia ultrices.",
                         image: [
                             {
@@ -101,7 +20,6 @@ const categories = [
                 ],
                 shirts: [
                     {
-                        categoryName: "shirts",
                         imaage: [
                             {
                                 src: "01-hp-m-mb",
@@ -247,10 +165,9 @@ const categories = [
                 ],
                 jeans: [
                     {
-                        categoryName: "jeans",
                         imaage: [
                             {
-                                src: "02-hp-m-mb",
+                                src: "03-hp-m-mb",
                                 extension: "avif",
                                 type: "image/avif",
                                 alt: "shirt"
@@ -279,7 +196,7 @@ const categories = [
                                 title: "Loose Brown Stretch Carpenter Jeans.",
                                 image: [
                                     {
-                                        src: "0024_00918238_2629_f001",
+                                        src: "0024_00918226_3479_c002",
                                         extension: "avif",
                                         type: "image/avif",
                                         alt: "Plaid Pocket Cotton Stretch Shirt."
@@ -369,7 +286,7 @@ const categories = [
                                 title: "Loose Medium Wash Stretch Carpenter Jeans.",
                                 image: [
                                     {
-                                        src: "0024_02757689_0001_f001",
+                                        src: "0024_00918227_3471_c001",
                                         extension: "avif",
                                         type: "image/avif",
                                         alt: "Plaid Pocket Cotton Stretch Shirt."
@@ -406,7 +323,6 @@ const categories = [
                 ],
                 sweaters: [
                     {
-                        categoryName: "Sweaters",
                         image: [
                             {
                                 src: "0024_00918227_3471_c001",
@@ -439,7 +355,6 @@ const categories = [
                 ],
                 suits: [
                     {
-                        categoryName: "Suits",
                         image: [
                             {
                                 src: "04-hp-m-mb",
@@ -472,7 +387,6 @@ const categories = [
                 ],
                 outerwear: [
                     {
-                        categoryName: "Outerwear",
                         image: [
                             {
                                 src: "05-hp-m-mb",
@@ -506,12 +420,12 @@ const categories = [
 
             }
         ],
-        woman: [
+        women: [
             {
                 categoryInformation: [
                     {
-                        title: "woman clothing",
-                        path: "woman-clothing",
+                        title: "women clothing",
+                        path: "women-clothing",
                         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget risus ut nunc lacinia ultrices. Nullam nec purus nec nunc lacinia ultrices. Nullam nec purus nec nunc lacinia ultrices. Nullam nec purus nec nunc lacinia ultrices.",
                         image: [
                             {
@@ -525,7 +439,6 @@ const categories = [
                 ],
                 jeans: [
                     {
-                        categoryName: "Jeans",
                         image: [
                             {
                                 src: "01-hp-m-mb",
@@ -558,7 +471,6 @@ const categories = [
                 ],
                 shirts: [
                     {
-                        categoryName: "Shirts",
                         image: [
                             {
                                 src: "05-hp-m-mb",
