@@ -1,3 +1,4 @@
+I’d be happy to collaborate on designing the project! 😊
 # React GraphQL Shop App
 
 This project sets up an Express server with a GraphQL API to manage product data for jeans, dresses, and sale items. It uses the `express-graphql` library to integrate GraphQL with Express and provides an interactive GraphiQL interface for testing API queries.
